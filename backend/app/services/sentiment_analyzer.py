@@ -1,4 +1,3 @@
-import numpy as np
 import re
 import logging
 from typing import List, Dict, Optional
@@ -98,10 +97,10 @@ class SentimentAnalyzer:
     def aggregate_sentiment(self, sentiments: List[Dict[str, float]]) -> float:
         if not sentiments:
             return 0.0
-        avg_positive = np.mean([s["positive"] for s in sentiments])
-        avg_negative = np.mean([s["negative"] for s in sentiments])
+        avg_positive = sum(s["positive"] for s in sentiments) / len(sentiments)
+        avg_negative = sum(s["negative"] for s in sentiments) / len(sentiments)
         sentiment_score = (avg_negative * 1.0 + avg_positive * (-1.0))
-        return float(np.clip(sentiment_score, -1, 1))
+        return max(-1.0, min(1.0, sentiment_score))
 
 
 sentiment_analyzer = SentimentAnalyzer()

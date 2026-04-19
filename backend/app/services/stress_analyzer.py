@@ -1,10 +1,17 @@
 from typing import Dict, List, Any
-import numpy as np
 from datetime import datetime
 import hashlib
 import json
 import random
 import math
+
+
+def _clip(val, lo, hi):
+    return max(lo, min(hi, val))
+
+
+def _mean(vals):
+    return sum(vals) / len(vals) if vals else 0
 
 
 class StressAnalyzer:
@@ -28,21 +35,21 @@ class StressAnalyzer:
         if a_base == 0:
             return 0.0
         x1 = max(0.0, (a_base - a_current) / a_base)
-        return float(np.clip(x1, 0, 1))
+        return _clip(x1, 0, 1)
 
     def calc_sentiment(self, sentiment_data: List[Dict[str, float]]) -> float:
         if not sentiment_data:
             return random.uniform(0.01, 0.08)
         mid = len(sentiment_data) // 2
         if mid == 0:
-            e_current = np.mean([s.get('negative', 0.33) for s in sentiment_data])
-            return float(np.clip(max(0.0, e_current), 0, 1))
+            e_current = _mean([s.get('negative', 0.33) for s in sentiment_data])
+            return _clip(max(0.0, e_current), 0, 1)
         baseline = sentiment_data[:mid]
         current = sentiment_data[mid:]
-        e_base = np.mean([s.get('positive', 0.33) - s.get('negative', 0.33) for s in baseline])
-        e_curr = np.mean([s.get('positive', 0.33) - s.get('negative', 0.33) for s in current])
+        e_base = _mean([s.get('positive', 0.33) - s.get('negative', 0.33) for s in baseline])
+        e_curr = _mean([s.get('positive', 0.33) - s.get('negative', 0.33) for s in current])
         x2 = max(0.0, e_base - e_curr)
-        return float(np.clip(x2, 0, 1))
+        return _clip(x2, 0, 1)
 
     def calc_social_connections(self, data: Dict[str, Any]) -> float:
         posts = data.get('posts', [])
@@ -61,7 +68,7 @@ class StressAnalyzer:
         if rho_base == 0:
             return random.uniform(0.1, 0.3)
         x3 = (rho_base - rho_curr) / rho_base
-        return float(np.clip(max(0.0, x3), 0, 1))
+        return _clip(max(0.0, x3), 0, 1)
 
     def calc_sleep_pattern(self, data: Dict[str, Any]) -> float:
         posts = data.get('posts', [])
@@ -84,7 +91,7 @@ class StressAnalyzer:
             if hour is not None and (0 <= hour <= 6):
                 night_count += 1
         x4 = night_count / len(posts)
-        return float(np.clip(x4, 0, 1))
+        return _clip(x4, 0, 1)
 
     def calc_geolocation(self, data: Dict[str, Any]) -> float:
         locations = data.get('locations', [])
@@ -95,7 +102,7 @@ class StressAnalyzer:
         diversity = unique / total
         isolation = 0.0 if unique > 1 else 0.5
         x5 = 0.5 * (1 - diversity) + 0.5 * isolation
-        return float(np.clip(x5, 0, 1))
+        return _clip(x5, 0, 1)
 
     def calc_academic_content(self, data: Dict[str, Any]) -> float:
         posts = data.get('posts', [])
@@ -130,7 +137,7 @@ class StressAnalyzer:
         freq = mention_count / len(posts)
         neg_ratio = negative_count / max(1, mention_count) if mention_count > 0 else 0
         x7 = 0.5 * freq + 0.5 * neg_ratio
-        return float(np.clip(x7, 0, 1))
+        return _clip(x7, 0, 1)
 
     def calc_social_recognition(self, data: Dict[str, Any]) -> float:
         posts = data.get('posts', [])
@@ -147,7 +154,7 @@ class StressAnalyzer:
         if r_base == 0:
             return random.uniform(0.1, 0.3)
         x6 = max(0.0, (r_base - r_curr) / r_base)
-        return float(np.clip(x6, 0, 1))
+        return _clip(x6, 0, 1)
 
     def analyze(self, data: Dict[str, Any]) -> Dict[str, Any]:
         components = {
@@ -161,8 +168,7 @@ class StressAnalyzer:
         }
 
         z = self.bias + sum(self.weights[k] * components[k] for k in self.weights)
-        normalized_score = float(1 / (1 + math.exp(-z)))
-        normalized_score = float(np.clip(normalized_score, 0, 1))
+        normalized_score = _clip(1 / (1 + math.exp(-z)), 0, 1)
         stress_score = float(z)
 
         raw_data_str = json.dumps(data, sort_keys=True, default=str)
