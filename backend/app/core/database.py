@@ -7,8 +7,9 @@ from app.core.config import settings
 USE_SQLITE = os.getenv("USE_SQLITE", "true").lower() == "true"
 
 if USE_SQLITE:
+    db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "digital_footprint.db")
     engine = create_async_engine(
-        "sqlite+aiosqlite:///./digital_footprint.db",
+        f"sqlite+aiosqlite:///{db_path}",
         connect_args={"check_same_thread": False},
         poolclass=StaticPool,
         echo=False
