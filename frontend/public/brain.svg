@@ -1,15 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <rect width="100" height="100" rx="20" fill="url(#grad)"/>
-  <path d="M50 20 C30 20, 20 35, 20 50 C20 70, 35 80, 50 80 C65 80, 80 70, 80 50 C80 35, 70 20, 50 20" fill="none" stroke="white" stroke-width="3"/>
-  <circle cx="35" cy="45" r="8" fill="white"/>
-  <circle cx="65" cy="45" r="8" fill="white"/>
-  <path d="M35 65 Q50 75, 65 65" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="35" cy="45" r="3" fill="#667eea"/>
-  <circle cx="65" cy="45" r="3" fill="#667eea"/>
+  <rect width="100" height="100" rx="20" fill="url(#bg)"/>
+  <g transform="translate(18, 12) scale(0.82)" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40 70 C40 70, 20 68, 16 55 C12 42, 18 35, 22 32 C18 28, 18 18, 28 14 C32 12, 38 12, 42 15 C44 10, 50 6, 58 8 C64 10, 68 16, 68 22 C72 20, 78 22, 80 28 C82 34, 78 40, 74 42 C78 46, 78 54, 72 58 C66 62, 60 62, 56 60 C54 66, 48 70, 40 70Z"/>
+    <path d="M30 35 C34 32, 38 34, 40 38" stroke-width="2"/>
+    <path d="M40 38 C42 32, 48 30, 54 34" stroke-width="2"/>
+    <path d="M54 34 C58 30, 64 32, 66 38" stroke-width="2"/>
+    <path d="M26 48 C30 44, 36 46, 40 50" stroke-width="2"/>
+    <path d="M40 50 C44 46, 50 44, 56 48" stroke-width="2"/>
+    <path d="M32 58 C36 54, 42 56, 48 60" stroke-width="2"/>
+  </g>
 </svg>

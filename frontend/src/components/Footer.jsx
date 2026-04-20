@@ -36,7 +36,7 @@ export default function Footer() {
                 Neuro<span className="gradient-text">Scan</span>
               </span>
             </Link>
-            <p className="text-white/30 text-sm leading-relaxed max-w-sm mb-6">
+            <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
               Система анализа цифрового следа для выявления академического стресса у одарённых подростков. Исследовательский проект НИШ Караганда.
             </p>
             <div className="flex gap-2">
@@ -48,7 +48,7 @@ export default function Footer() {
                 <a
                   key={label}
                   href="#"
-                  className="w-9 h-9 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] hover:border-white/[0.1] flex items-center justify-center text-white/30 hover:text-white/60 transition-all"
+                  className="w-9 h-9 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] hover:border-white/[0.1] flex items-center justify-center text-white/50 hover:text-white/60 transition-all"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -64,7 +64,7 @@ export default function Footer() {
                   <li key={label}>
                     <Link
                       to={path}
-                      className="text-white/25 text-sm hover:text-white/60 transition-colors duration-300"
+                      className="text-white/45 text-sm hover:text-white/60 transition-colors duration-300"
                     >
                       {label}
                     </Link>
@@ -76,10 +76,10 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/[0.04] flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/20 text-sm flex items-center gap-1">
+          <p className="text-white/35 text-sm flex items-center gap-1">
             &copy; {currentYear} NeuroScan. Исследовательский проект в образовательных целях.
           </p>
-          <p className="text-white/20 text-sm flex items-center gap-1">
+          <p className="text-white/35 text-sm flex items-center gap-1">
             Сделано с <Heart className="w-3 h-3 text-accent-400" /> для благополучия учеников
           </p>
         </div>

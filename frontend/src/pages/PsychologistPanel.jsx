@@ -69,7 +69,7 @@ export default function PsychologistPanel() {
               Панель <span className="gradient-text">Психолога</span>
             </h1>
           </div>
-          <p className="text-white/35 ml-13">Детальные отчеты по закрепленным классам</p>
+          <p className="text-white/55 ml-13">Детальные отчеты по закрепленным классам</p>
         </motion.div>
 
         {loading ? (
@@ -96,7 +96,7 @@ export default function PsychologistPanel() {
                   >
                     <div>
                       <div className="text-sm font-medium text-white/70">{s.username}</div>
-                      <div className="text-xs text-white/25">{s.full_name || ''}</div>
+                      <div className="text-xs text-white/45">{s.full_name || ''}</div>
                     </div>
                     <span className={`text-xs font-medium px-2 py-1 rounded-lg ${
                       s.normalized_score < 0.3 ? 'text-emerald-400 bg-emerald-500/10' :
@@ -152,7 +152,7 @@ export default function PsychologistPanel() {
                                 }`}
                               />
                             </div>
-                            <span className="text-xs text-white/30 w-10 text-right">{(norm * 100).toFixed(0)}%</span>
+                            <span className="text-xs text-white/50 w-10 text-right">{(norm * 100).toFixed(0)}%</span>
                           </div>
                         )
                       })}
@@ -165,7 +165,7 @@ export default function PsychologistPanel() {
                     <Activity className="w-8 h-8 text-violet-400/40" />
                   </div>
                   <h3 className="text-lg font-semibold text-white/50 mb-2">Выберите ученика</h3>
-                  <p className="text-sm text-white/25">Нажмите на ученика из списка слева для просмотра детального отчёта</p>
+                  <p className="text-sm text-white/45">Нажмите на ученика из списка слева для просмотра детального отчёта</p>
                 </div>
               )}
             </motion.div>

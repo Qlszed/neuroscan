@@ -89,7 +89,7 @@ export default function Register() {
           <h1 className="text-3xl font-display font-bold mb-2">
             Регистрация в <span className="gradient-text">NeuroScan</span>
           </h1>
-          <p className="text-white/35">Создайте аккаунт для доступа к системе</p>
+          <p className="text-white/55">Создайте аккаунт для доступа к системе</p>
         </div>
 
         <div className="glass-card p-8">
@@ -97,7 +97,7 @@ export default function Register() {
             <div>
               <label className="block text-sm font-medium text-white/50 mb-2">Email</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35" />
                 <input type="email" name="email" required value={formData.email} onChange={handleChange}
                   className="input-field pl-11" placeholder="you@example.com" />
               </div>
@@ -106,16 +106,16 @@ export default function Register() {
             <div>
               <label className="block text-sm font-medium text-white/50 mb-2">Имя пользователя</label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35" />
                 <input type="text" name="username" required minLength={3} value={formData.username} onChange={handleChange}
                   className="input-field pl-11" placeholder="Придумайте логин" />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/50 mb-2">ФИО <span className="text-white/20">(необязательно)</span></label>
+              <label className="block text-sm font-medium text-white/50 mb-2">ФИО <span className="text-white/35">(необязательно)</span></label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35" />
                 <input type="text" name="fullName" value={formData.fullName} onChange={handleChange}
                   className="input-field pl-11" placeholder="Иванов Иван Иванович" />
               </div>
@@ -124,12 +124,12 @@ export default function Register() {
             <div>
               <label className="block text-sm font-medium text-white/50 mb-2">Пароль</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35" />
                 <input type={showPassword ? 'text' : 'password'} name="password" required minLength={8}
                   value={formData.password} onChange={handleChange}
                   className="input-field pl-11 pr-11" placeholder="Минимум 8 символов" />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/50 transition-colors">
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/35 hover:text-white/50 transition-colors">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
@@ -138,7 +138,7 @@ export default function Register() {
             <div>
               <label className="block text-sm font-medium text-white/50 mb-2">Подтвердите пароль</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35" />
                 <input type={showPassword ? 'text' : 'password'} name="confirmPassword" required
                   value={formData.confirmPassword} onChange={handleChange}
                   className="input-field pl-11" placeholder="Повторите пароль" />
@@ -161,7 +161,7 @@ export default function Register() {
                         <Icon className="w-3.5 h-3.5" />
                         <span className="text-xs font-medium">{label}</span>
                       </div>
-                      <p className="text-[10px] text-white/20 leading-tight">{roleDescriptions[key]}</p>
+                      <p className="text-[10px] text-white/35 leading-tight">{roleDescriptions[key]}</p>
                     </button>
                   )
                 })}
@@ -172,7 +172,7 @@ export default function Register() {
               <div>
                 <label className="block text-sm font-medium text-white/50 mb-2">Код доступа для роли</label>
                 <div className="relative">
-                  <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                  <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35" />
                   <input type="text" value={roleCode} onChange={e => setRoleCode(e.target.value)}
                     className="input-field pl-11" placeholder="Введите код доступа" />
                 </div>
@@ -185,7 +185,7 @@ export default function Register() {
                 <label className="block text-sm font-medium text-white/50 mb-2">Закреплённые классы</label>
                 <input type="text" value={assignedClasses} onChange={e => setAssignedClasses(e.target.value)}
                   className="input-field" placeholder="10А, 10Б, 11В" />
-                <p className="text-xs text-white/20 mt-1">Введите через запятую</p>
+                <p className="text-xs text-white/35 mt-1">Введите через запятую</p>
               </div>
             )}
 
@@ -212,14 +212,14 @@ export default function Register() {
           <div className="mt-6 p-4 rounded-xl bg-primary-500/[0.04] border border-primary-500/10">
             <div className="flex items-start gap-3">
               <CheckCircle className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-white/30 leading-relaxed">
+              <p className="text-xs text-white/50 leading-relaxed">
                 Ваши данные будут анонимизированы и использованы только в исследовательских целях. Вы можете удалить аккаунт в любое время.
               </p>
             </div>
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-white/30 text-sm">
+            <p className="text-white/50 text-sm">
               Уже есть аккаунт?{' '}
               <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium transition-colors">Войти</Link>
             </p>

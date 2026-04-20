@@ -47,7 +47,7 @@ export default function CuratorPanel() {
               Панель <span className="gradient-text">Куратора</span>
             </h1>
           </div>
-          <p className="text-white/35 ml-13">Обзор уровня стресса по закрепленным группам</p>
+          <p className="text-white/55 ml-13">Обзор уровня стресса по закрепленным группам</p>
         </motion.div>
 
         {loading ? (
@@ -56,7 +56,7 @@ export default function CuratorPanel() {
           </div>
         ) : summaries.length === 0 ? (
           <div className="glass-card p-16 text-center">
-            <p className="text-white/30">Нет данных по закрепленным классам</p>
+            <p className="text-white/50">Нет данных по закрепленным классам</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -78,21 +78,21 @@ export default function CuratorPanel() {
 
                 <div className="mt-5 w-full space-y-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-white/30">Учеников:</span>
+                    <span className="text-white/50">Учеников:</span>
                     <span className="text-white/60 font-medium">{s.student_count}</span>
                   </div>
                   <div className="flex gap-2 mt-3">
                     <div className="flex-1 p-2 rounded-lg bg-emerald-500/[0.06] border border-emerald-500/10 text-center">
                       <div className="text-lg font-bold text-emerald-400">{s.low_count}</div>
-                      <div className="text-xs text-white/20">Норма</div>
+                      <div className="text-xs text-white/55">Норма</div>
                     </div>
                     <div className="flex-1 p-2 rounded-lg bg-amber-500/[0.06] border border-amber-500/10 text-center">
                       <div className="text-lg font-bold text-amber-400">{s.moderate_count}</div>
-                      <div className="text-xs text-white/20">Внимание</div>
+                      <div className="text-xs text-white/55">Внимание</div>
                     </div>
                     <div className="flex-1 p-2 rounded-lg bg-red-500/[0.06] border border-red-500/10 text-center">
                       <div className="text-lg font-bold text-red-400">{s.high_count}</div>
-                      <div className="text-xs text-white/20">Риск</div>
+                      <div className="text-xs text-white/55">Риск</div>
                     </div>
                   </div>
                 </div>

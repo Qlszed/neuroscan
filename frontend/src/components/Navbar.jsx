@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Brain, LogOut, LayoutDashboard, Shield, Eye, BarChart3 } from 'lucide-react'
+import { Menu, X, LogOut, LayoutDashboard, Shield, Eye, BarChart3 } from 'lucide-react'
 import { useAuth, ROLE_LABELS, ROLE_COLORS } from '../context/AuthContext'
 
 export default function Navbar() {
@@ -47,7 +47,13 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary-500/20">
-              <Brain className="w-5 h-5 text-white" />
+              <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2C8.5 2, 6 4.5, 6 7.5C4.5 8, 3 9.5, 3 11.5C3 14, 5 16, 7.5 16C8 17.5, 9.5 19, 12 19C14.5 19, 16 17.5, 16.5 16C19 16, 21 14, 21 11.5C21 9.5, 19.5 8, 18 7.5C18 4.5, 15.5 2, 12 2Z"/>
+                <path d="M9 8C10 7, 11 7.5, 12 8"/>
+                <path d="M12 8C13 7.5, 14 7, 15 8"/>
+                <path d="M8 12C9 11, 10 11.5, 12 12"/>
+                <path d="M12 12C14 11.5, 15 11, 16 12"/>
+              </svg>
             </div>
             <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
           </div>
@@ -101,12 +107,12 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xs text-white/50 max-w-[80px] truncate leading-tight">{user.username}</span>
-                  <span className="text-[10px] text-white/25">{ROLE_LABELS[user.role]}</span>
+                  <span className="text-[10px] text-white/40">{ROLE_LABELS[user.role]}</span>
                 </div>
               </div>
               <button
                 onClick={logout}
-                className="p-2.5 rounded-xl text-white/30 hover:text-white hover:bg-white/[0.06] transition-all"
+                className="p-2.5 rounded-xl text-white/45 hover:text-white hover:bg-white/[0.06] transition-all"
               >
                 <LogOut className="w-4 h-4" />
               </button>

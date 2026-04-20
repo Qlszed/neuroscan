@@ -184,7 +184,7 @@ body::after {
   }
 
   .section-subtitle {
-    @apply text-lg text-white/40 max-w-2xl mx-auto;
+    @apply text-lg text-white/55 max-w-2xl mx-auto;
   }
 
   .glow-indigo {

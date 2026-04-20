@@ -164,7 +164,7 @@ export default function Landing() {
                 variants={fadeUp}
                 initial="hidden"
                 animate="visible"
-                className="text-lg md:text-xl text-white/35 mb-12 max-w-2xl mx-auto leading-relaxed relative z-10"
+                className="text-lg md:text-xl text-white/55 mb-12 max-w-2xl mx-auto leading-relaxed relative z-10"
               >
                 Автоматический анализ цифрового следа для выявления паттернов стресса у одарённых подростков. Мы видим то, о чём молчат.
               </motion.p>
@@ -206,7 +206,7 @@ export default function Landing() {
                       <div className="text-3xl md:text-4xl font-bold gradient-text mb-2 font-display">
                         {stat.value}
                       </div>
-                      <div className="text-sm text-white/30">{stat.label}</div>
+                      <div className="text-sm text-white/50">{stat.label}</div>
                     </div>
                   ))}
                 </div>
@@ -256,7 +256,7 @@ export default function Landing() {
                   <feature.icon className="w-full h-full text-white" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-white/90">{feature.title}</h3>
-                <p className="text-white/30 text-sm leading-relaxed">{feature.description}</p>
+                <p className="text-white/50 text-sm leading-relaxed">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -304,7 +304,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-white/80">{comp.name}</div>
-                  <div className="text-xs text-white/30">Вес: {comp.weight}</div>
+                  <div className="text-xs text-white/50">Вес: {comp.weight}</div>
                 </div>
               </motion.div>
             ))}
@@ -327,7 +327,7 @@ export default function Landing() {
               <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
                 Готовы анализировать <span className="gradient-text-shimmer">цифровой след</span>?
               </h2>
-              <p className="text-lg text-white/30 mb-10 max-w-2xl mx-auto">
+              <p className="text-lg text-white/50 mb-10 max-w-2xl mx-auto">
                 Попробуйте анализ с образцом данных и увидьте, как семикомпонентная модель работает на практике.
               </p>
               <Link

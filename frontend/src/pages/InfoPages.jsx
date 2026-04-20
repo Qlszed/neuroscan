@@ -22,8 +22,8 @@ const researchAreas = [
 ]
 
 const steps = [
-  { num: '01', title: 'Ввод ссылки на профиль', desc: 'Пользователь предоставляет ссылку на профиль в соцсетях или выбирает образец данных для анализа.', icon: Database },
-  { num: '02', title: 'Сбор данных', desc: 'Система автоматически собирает общедоступные данные цифрового следа: посты, комментарии, временные метки, метрики вовлечённости.', icon: Cpu },
+  { num: '01', title: 'Данные из профиля', desc: 'Пользовательские данные уже хранятся в профиле NeuroScan: посты, комментарии, реакции. Отдельно загружать ничего не нужно.', icon: Database },
+  { num: '02', title: 'Подтверждение согласия', desc: 'Перед анализом пользователь подтверждает согласие на обработку данных. Без согласия анализ не запускается.', icon: UserCheck },
   { num: '03', title: 'Анализ тональности', desc: 'Ключевые маркеры эмоциональной окраски текста выделяются автоматически. В продакшене планируется RuBERT для более точного анализа.', icon: MessageSquare },
   { num: '04', title: 'Расчёт по 7 компонентам', desc: 'Каждый из семи компонентов рассчитывает свой индикатор: от активности до социального признания.', icon: BarChart3 },
   { num: '05', title: 'Взвешенная агрегация', desc: 'Компоненты объединяются с весами, которые мы обосновали литературой: тональность получает наибольший вес (2.8), так как это самый надёжный маркер стресса.', icon: Activity },
@@ -71,14 +71,14 @@ export function About() {
                 <area.icon className="w-5 h-5 text-primary-400" />
               </div>
               <h3 className="text-base font-semibold mb-2 text-white/80">{area.title}</h3>
-              <p className="text-sm text-white/25 leading-relaxed">{area.description}</p>
+              <p className="text-sm text-white/45 leading-relaxed">{area.description}</p>
             </motion.div>
           ))}
         </div>
 
         <motion.div custom={0} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="glass-card p-8 md:p-10 mb-16">
           <h2 className="text-2xl font-display font-bold mb-6"><span className="gradient-text">Проблема</span></h2>
-          <div className="space-y-4 text-white/30 text-sm leading-relaxed">
+          <div className="space-y-4 text-white/50 text-sm leading-relaxed">
             <p>Мы учимся в НИШ Караганда и видим это каждый день. Учебный день начинается в 7 утра, заканчивается после самоподготовки в 10 вечера. Между уроками, допами и домашкой почти нет времени выдохнуть. Большинство живут в общежитии, вдали от семьи. Три неудовлетворительные оценки за семестр, и грант потерян. Трёхъязычная программа: предметы на казахском, русском и английском. Когнитивная перегрузка на постоянной основе.</p>
             <p>Но главная проблема не в нагрузке, а в том, что о ней молчат. Одарённые подростки редко обращаются за помощью. Признать проблему значит признать слабость, а это противоречит самоидентификации «я способный». Срабатывает эффект большого рыбного пруда: в обычной школе ты был лучшим, а в СУНЦ МГУ или ФМЛ №239 стал «одним из». Плюс перфекционизм: ошибка воспринимается как катастрофа, а не как часть обучения.</p>
             <p>В итоге стресс не исчезает, он просто уходит в цифровой след. Меняется тон постов, сужается круг общения, появляются ночные сессии с учебниками вместо сна. Мы подумали: а что если эти паттерны можно обнаружить автоматически, до того как случится кризис?</p>
@@ -87,7 +87,7 @@ export function About() {
 
         <motion.div custom={0} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="glass-card p-8 md:p-10">
           <h2 className="text-2xl font-display font-bold mb-6">Наша <span className="gradient-text">миссия</span></h2>
-          <div className="space-y-4 text-white/30 text-sm leading-relaxed">
+          <div className="space-y-4 text-white/50 text-sm leading-relaxed">
             <p>Мы создаём инструмент, который помогает школьным психологам заметить ученика из группы риска до кризиса, а не после. Не заменяя людей, а расширяя их возможности. Психолог не может следить за каждым из сотен учеников, но система может подсказать: «Обратите внимание на этого ученика, его паттерны изменились».</p>
             <p>Система полностью автоматизирована: не нужен ручной ввод данных, не нужны самоотчёты или опросники. Семикомпонентная модель с взвешенной агрегацией и сигмоидной функцией даёт комплексную оценку. Валидация через PSS-10 и планируется интеграция с Kundelik для объективных академических данных.</p>
             <p className="text-white/40 font-medium">Енбаев Жанәділ & Сулеймен Ерасыл, ученики 11 класса НИШ Караганда. Научный руководитель: Давлетгариев Глеб Фаритович.</p>
@@ -129,7 +129,7 @@ export function HowItWorks() {
                     <span className="text-xs text-primary-400/50 font-mono">{step.num}</span>
                     <h3 className="font-semibold text-white/80">{step.title}</h3>
                   </div>
-                  <p className="text-sm text-white/30 leading-relaxed">{step.desc}</p>
+                  <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -144,7 +144,7 @@ export function HowItWorks() {
             <motion.p custom={1} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-subtitle">
               Каждый компонент измеряет отдельное поведенческое измерение, взвешенное по значимости, обоснованной исследованиями.
             </motion.p>
-            <motion.p custom={2} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-sm text-white/30 mt-3">
+            <motion.p custom={2} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-sm text-white/50 mt-3">
               выше % = сильнее признак стресса
             </motion.p>
           </div>
@@ -161,7 +161,7 @@ export function HowItWorks() {
                       <h3 className="font-semibold text-sm text-white/80">{comp.name}</h3>
                       <span className="text-xs text-primary-400/60 font-mono">w = {comp.weight}</span>
                     </div>
-                    <p className="text-xs text-white/25 leading-relaxed">{comp.desc}</p>
+                    <p className="text-xs text-white/45 leading-relaxed">{comp.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -176,7 +176,7 @@ export function HowItWorks() {
               <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
                 Готовы <span className="gradient-text">анализировать</span>?
               </h2>
-              <p className="text-white/30 mb-8 max-w-xl mx-auto">Попробуйте анализ с образцом данных и посмотрите, как семикомпонентная модель работает на практике.</p>
+              <p className="text-white/50 mb-8 max-w-xl mx-auto">Попробуйте анализ с образцом данных и посмотрите, как семикомпонентная модель работает на практике.</p>
               <Link to="/register" className="btn-primary inline-flex items-center gap-2">Начать <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </div>
@@ -207,7 +207,7 @@ export function Ethics() {
                 <p.icon className="w-5 h-5 text-primary-400" />
               </div>
               <h3 className="text-base font-semibold mb-2 text-white/80">{p.title}</h3>
-              <p className="text-sm text-white/25 leading-relaxed">{p.desc}</p>
+              <p className="text-sm text-white/45 leading-relaxed">{p.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -219,10 +219,10 @@ export function Ethics() {
             </div>
             <div>
               <h2 className="text-xl font-display font-bold mb-1 text-amber-400/80">Важное предупреждение</h2>
-              <p className="text-sm text-white/25">Эта система не является диагностическим инструментом</p>
+              <p className="text-sm text-white/45">Эта система не является диагностическим инструментом</p>
             </div>
           </div>
-          <div className="space-y-3 text-sm text-white/30 leading-relaxed">
+          <div className="space-y-3 text-sm text-white/50 leading-relaxed">
             <p>NeuroScan не ставит медицинские, психологические или психиатрические диагнозы. Оценки стресса отражают статистические индикаторы на основе паттернов цифрового поведения, а не клинические заключения. Это вспомогательный инструмент для школьных психологов.</p>
             <p>Если вы или кто-то из ваших знакомых испытывает трудности с психическим здоровьем, обратитесь к специалисту или на горячую линию помощи. Этот инструмент никогда не следует использовать как замену профессиональной помощи.</p>
           </div>
@@ -237,21 +237,21 @@ export function Ethics() {
             <div className="space-y-4">
               <div>
                 <h3 className="text-sm font-semibold text-white/60 mb-1">Что мы собираем</h3>
-                <p className="text-xs text-white/25">Только общедоступные данные с согласия пользователя: частоту публикаций, текст для анализа тональности, временные метки и метрики вовлечённости.</p>
+                <p className="text-xs text-white/45">Только общедоступные данные с согласия пользователя: частоту публикаций, текст для анализа тональности, временные метки и метрики вовлечённости.</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white/60 mb-1">Что мы храним</h3>
-                <p className="text-xs text-white/25">Только анонимизированные агрегированные данные: оценки стресса, значения компонентов и хэшированные идентификаторы. Исходный текст не хранится.</p>
+                <p className="text-xs text-white/45">Только анонимизированные агрегированные данные: оценки стресса, значения компонентов и хэшированные идентификаторы. Исходный текст не хранится.</p>
               </div>
             </div>
             <div className="space-y-4">
               <div>
                 <h3 className="text-sm font-semibold text-white/60 mb-1">Кто имеет доступ</h3>
-                <p className="text-xs text-white/25">Только пользователь и его школьный психолог видят индивидуальные результаты. Третьи стороны, включая администрацию, не имеют доступа без явного согласия.</p>
+                <p className="text-xs text-white/45">Только пользователь и его школьный психолог видят индивидуальные результаты. Третьи стороны, включая администрацию, не имеют доступа без явного согласия.</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white/60 mb-1">Ваши права</h3>
-                <p className="text-xs text-white/25">Вы можете в любой момент просмотреть, экспортировать или удалить свои данные. Отзыв согласия приостанавливает анализ. Удаление аккаунта навсегда удаляет все связанные данные.</p>
+                <p className="text-xs text-white/45">Вы можете в любой момент просмотреть, экспортировать или удалить свои данные. Отзыв согласия приостанавливает анализ. Удаление аккаунта навсегда удаляет все связанные данные.</p>
               </div>
             </div>
           </div>
@@ -303,7 +303,7 @@ export function Contact() {
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-white/70 mb-1">{item.title}</h3>
-                    <p className="text-sm text-white/30">{item.detail}</p>
+                    <p className="text-sm text-white/50">{item.detail}</p>
                   </div>
                 </div>
               </div>
@@ -318,7 +318,7 @@ export function Contact() {
                     <CheckCircle className="w-8 h-8 text-emerald-400" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2 text-white/80">Сообщение отправлено!</h3>
-                  <p className="text-sm text-white/30 mb-6">Спасибо, что связались с нами. Мы ответим вам в ближайшее время.</p>
+                  <p className="text-sm text-white/50 mb-6">Спасибо, что связались с нами. Мы ответим вам в ближайшее время.</p>
                   <button onClick={() => setSuccess(false)} className="btn-secondary text-sm">Отправить ещё</button>
                 </div>
               ) : (

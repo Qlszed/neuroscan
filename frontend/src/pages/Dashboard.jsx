@@ -181,7 +181,7 @@ export default function Dashboard() {
             Добро пожаловать, <span className="gradient-text">{user.username}</span>
           </h1>
           <div className="flex items-center gap-3 flex-wrap">
-            <p className="text-white/35">
+            <p className="text-white/55">
               {canAnalyze ? 'Анализ цифрового следа для определения уровня стресса' : 'Просмотр данных и статистики'}
             </p>
             <span className="px-2 py-0.5 rounded-lg text-xs font-medium border bg-primary-500/10 border-primary-500/20 text-primary-400">
@@ -201,7 +201,7 @@ export default function Dashboard() {
             {[{ id: 'analyze', label: 'Анализ' }, { id: 'history', label: 'История' }].map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  activeTab === tab.id ? 'bg-white/[0.06] text-white shadow-sm' : 'text-white/30 hover:text-white/60'
+                  activeTab === tab.id ? 'bg-white/[0.06] text-white shadow-sm' : 'text-white/50 hover:text-white/60'
                 }`}>
                 {tab.label}
               </button>
@@ -230,15 +230,15 @@ export default function Dashboard() {
                   <div className="mt-4 flex gap-2">
                     <div className="flex-1 p-2 rounded-lg bg-emerald-500/[0.06] text-center">
                       <div className="text-lg font-bold text-emerald-400">{s.low_count}</div>
-                      <div className="text-[10px] text-white/20">Норма</div>
+                      <div className="text-[10px] text-white/35">Норма</div>
                     </div>
                     <div className="flex-1 p-2 rounded-lg bg-amber-500/[0.06] text-center">
                       <div className="text-lg font-bold text-amber-400">{s.moderate_count}</div>
-                      <div className="text-[10px] text-white/20">Внимание</div>
+                      <div className="text-[10px] text-white/35">Внимание</div>
                     </div>
                     <div className="flex-1 p-2 rounded-lg bg-red-500/[0.06] text-center">
                       <div className="text-lg font-bold text-red-400">{s.high_count}</div>
-                      <div className="text-[10px] text-white/20">Риск</div>
+                      <div className="text-[10px] text-white/35">Риск</div>
                     </div>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export default function Dashboard() {
                 <div key={s.user_id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.015] border border-white/[0.03]">
                   <div>
                     <div className="text-sm font-medium text-white/70">{s.username}</div>
-                    <div className="text-xs text-white/25">{s.full_name || ''}</div>
+                    <div className="text-xs text-white/50">{s.full_name || ''}</div>
                   </div>
                   <span className={`px-3 py-1 rounded-lg text-xs font-medium border ${getStressLevel(s.normalized_score).bg} ${getStressLevel(s.normalized_score).color}`}>
                     {Math.round(s.normalized_score * 100)}%
@@ -280,7 +280,7 @@ export default function Dashboard() {
                       <AlertTriangle className="w-5 h-5 text-amber-400/60 flex-shrink-0 mt-0.5" />
                       <div>
                         <h3 className="font-medium text-amber-400/80 text-sm mb-1">Важное предупреждение</h3>
-                        <p className="text-xs text-white/30 leading-relaxed">
+                        <p className="text-xs text-white/50 leading-relaxed">
                           Данный инструмент предназначен только для исследовательских целей. Он НЕ ставит медицинский диагноз. При проблемах со стрессом обратитесь к специалисту.
                         </p>
                       </div>
@@ -293,14 +293,14 @@ export default function Dashboard() {
                         <BookOpen className="w-4 h-4 text-primary-400" />
                         <span className="text-sm font-medium">Пробный датасет</span>
                       </div>
-                      <p className="text-xs text-white/25">Случайные данные для демонстрации</p>
+                      <p className="text-xs text-white/50">Случайные данные для демонстрации</p>
                     </button>
                   </div>
                   <label className="flex items-start gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04] cursor-pointer hover:bg-white/[0.04] transition-all">
                     <input type="checkbox" checked={consentConfirmed} onChange={e => setConsentConfirmed(e.target.checked)} className="mt-1 w-4 h-4 rounded accent-primary-500" />
                     <div>
                       <span className="text-sm font-medium">Подтверждаю согласие</span>
-                      <p className="text-xs text-white/25 mt-1">Данные будут анонимизированы и использованы только в исследовательских целях.</p>
+                      <p className="text-xs text-white/50 mt-1">Данные будут анонимизированы и использованы только в исследовательских целях.</p>
                     </div>
                   </label>
                   <button onClick={runAnalysis} disabled={isAnalyzing || !consentConfirmed}
@@ -313,7 +313,7 @@ export default function Dashboard() {
               {analysisResult && (
                 <motion.div variants={fadeUp} initial="hidden" animate="visible" className="glass-card p-7">
                   <h3 className="text-lg font-semibold mb-1">Детализация компонентов</h3>
-                  <p className="text-xs text-white/25 mb-5">Выше % — сильнее признак стресса по данному фактору</p>
+                  <p className="text-xs text-white/50 mb-5">Выше % — сильнее признак стресса по данному фактору</p>
                   <div className="space-y-3">
                     {[
                       { label: 'Изменение активности', value: analysisResult.component_scores.activity_change, icon: Activity },
@@ -329,7 +329,7 @@ export default function Dashboard() {
                       return (
                         <div key={item.label} className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center flex-shrink-0">
-                            <item.icon className="w-4 h-4 text-white/30" />
+                            <item.icon className="w-4 h-4 text-white/50" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-1">
@@ -363,7 +363,7 @@ export default function Dashboard() {
                   </div>
                   <div className="glass-card p-7">
                     <h3 className="text-lg font-semibold mb-1">Радар-анализ</h3>
-                    <p className="text-xs text-white/25 mb-4">Дальше от центра — сильнее признак стресса</p>
+                    <p className="text-xs text-white/50 mb-4">Дальше от центра — сильнее признак стресса</p>
                     <StressRadar data={radarData} height={280} />
                   </div>
                   <div className="glass-card p-7">
@@ -393,7 +393,7 @@ export default function Dashboard() {
                       </div>
                     ) : (
                       <div className="py-8 text-center">
-                        <p className="text-sm text-white/25">График появится после нескольких сканирований</p>
+                        <p className="text-sm text-white/50">График появится после нескольких сканирований</p>
                         <p className="text-xs text-white/15 mt-1">Каждая точка — результат очередного анализа</p>
                       </div>
                     )}
@@ -405,7 +405,7 @@ export default function Dashboard() {
                     <Brain className="w-10 h-10 text-primary-400/40" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2 text-white/60">Анализ ещё не проводился</h3>
-                  <p className="text-sm text-white/25 max-w-sm">Запустите первый анализ стресса, чтобы увидеть детальную визуализацию и разбивку по компонентам.</p>
+                  <p className="text-sm text-white/50 max-w-sm">Запустите первый анализ стресса, чтобы увидеть детальную визуализацию и разбивку по компонентам.</p>
                 </div>
               )}
             </div>
@@ -420,7 +420,7 @@ export default function Dashboard() {
             ) : history.length === 0 ? (
               <div className="text-center py-12">
                 <div className="w-16 h-16 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-4"><Calendar className="w-8 h-8 text-white/15" /></div>
-                <p className="text-white/25 text-sm">Анализов пока нет. Запустите первый анализ.</p>
+                <p className="text-white/50 text-sm">Анализов пока нет. Запустите первый анализ.</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -430,7 +430,7 @@ export default function Dashboard() {
                       <div className="w-10 h-10 rounded-lg bg-primary-500/10 flex items-center justify-center"><Activity className="w-5 h-5 text-primary-400/60" /></div>
                       <div>
                         <div className="text-sm font-medium text-white/70">{item.platform}</div>
-                        <div className="text-xs text-white/25">{new Date(item.processed_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
+                        <div className="text-xs text-white/50">{new Date(item.processed_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
                       </div>
                     </div>
                     <span className={`px-3 py-1 rounded-lg text-xs font-medium border ${getStressLevel(item.normalized_score).bg} ${getStressLevel(item.normalized_score).color}`}>

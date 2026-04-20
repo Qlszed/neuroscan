@@ -50,7 +50,7 @@ export default function Login() {
           <h1 className="text-3xl font-display font-bold mb-2">
             С возвращением, <span className="gradient-text">друг</span>
           </h1>
-          <p className="text-white/35">Войдите для доступа к панели</p>
+          <p className="text-white/55">Войдите для доступа к панели</p>
         </div>
 
         <div className="glass-card p-8">
@@ -91,7 +91,7 @@ export default function Login() {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-white/30 text-sm">
+            <p className="text-white/50 text-sm">
               Нет аккаунта?{' '}
               <Link to="/register" className="text-primary-400 hover:text-primary-300 font-medium transition-colors">Создать</Link>
             </p>
