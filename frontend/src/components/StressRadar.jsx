@@ -1,13 +1,14 @@
+import { useState, useEffect } from 'react'
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip } from 'recharts'
 
 const SHORT_LABELS = {
   'Изменение активности': 'Активность',
-  'Тональность': 'Тональность',
+  'Тональность текстов': 'Тональность',
   'Социальные связи': 'Соц. связи',
-  'Временные паттерны': 'Время',
+  'Режим сна': 'Сон',
   'Геолокация': 'Геолокация',
-  'Академич. упоминания': 'Учёба',
-  'Обратная связь': 'Обратная связь',
+  'Академический контент': 'Академика',
+  'Социальное признание': 'Признание',
 }
 
 const CustomTooltip = ({ active, payload }) => {
@@ -22,19 +23,40 @@ const CustomTooltip = ({ active, payload }) => {
 }
 
 export default function StressRadar({ data = [], height = 280 }) {
+  const [animatedData, setAnimatedData] = useState([])
+  const [isAnimating, setIsAnimating] = useState(true)
+
+  useEffect(() => {
+    if (!data.length) return
+    const chartData = data.map(d => ({
+      ...d,
+      subject: SHORT_LABELS[d.subject] || d.subject,
+      originalSubject: d.subject,
+      ref: 50,
+      value: 0,
+    }))
+    setAnimatedData(chartData)
+    setIsAnimating(true)
+
+    const timer = setTimeout(() => {
+      setAnimatedData(prev =>
+        prev.map(d => ({
+          ...d,
+          value: data.find(dd => dd.subject === d.originalSubject)?.value ?? d.value,
+        }))
+      )
+      setIsAnimating(false)
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [data])
+
   if (!data.length) return null
 
-  const chartData = data.map(d => ({
-    ...d,
-    subject: SHORT_LABELS[d.subject] || d.subject,
-    originalSubject: d.subject,
-    ref: 50,
-  }))
-
   return (
-    <div style={{ height }}>
+    <div style={{ height, animation: 'radarFillIn 0.6s ease-out' }}>
       <ResponsiveContainer width="100%" height="100%">
-        <RadarChart data={chartData} outerRadius="72%">
+        <RadarChart data={animatedData} outerRadius="72%">
           <PolarGrid
             stroke="rgba(255,255,255,0.06)"
             strokeDasharray="2 4"
@@ -66,6 +88,8 @@ export default function StressRadar({ data = [], height = 280 }) {
             strokeWidth={2.5}
             dot={{ r: 3, fill: '#818cf8', stroke: '#6366f1', strokeWidth: 1.5, fillOpacity: 0.9 }}
             activeDot={{ r: 5, fill: '#a5b4fc', stroke: '#6366f1', strokeWidth: 2 }}
+            animationDuration={800}
+            animationEasing="ease-out"
           />
           <Tooltip content={<CustomTooltip />} />
         </RadarChart>

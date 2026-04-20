@@ -56,37 +56,37 @@ function generateSampleData() {
     })
   }
 
-  const recentPool = stressLevel < 0.33 ? BASELINE_POSTS
-    : stressLevel > 0.66 ? STRESS_POSTS
-    : NEUTRAL_POSTS
-  const isStressed = stressLevel > 0.66
-  const isMedium = stressLevel > 0.33 && stressLevel <= 0.66
+  const stressedText = stressLevel > 0.33
+  const stressedNight = stressLevel > 0.5
+  const stressedEngagement = stressLevel > 0.4
 
   for (let i = 0; i < recentCount; i++) {
     const day = new Date(2024, 1, 5 + i)
-    let hour
-    if (isStressed) hour = Math.random() < 0.6 ? 23 + Math.floor(Math.random() * 4) : 20 + Math.floor(Math.random() * 4)
-    else if (isMedium) hour = Math.random() < 0.3 ? 23 + Math.floor(Math.random() * 2) : 10 + Math.floor(Math.random() * 12)
-    else hour = 9 + Math.floor(Math.random() * 10)
+    let hour = 9 + Math.floor(Math.random() * 10)
+    if (stressedNight && Math.random() < 0.45) hour = 23 + Math.floor(Math.random() * 4)
+
+    const text = stressedText && Math.random() < 0.6
+      ? STRESS_POSTS[Math.floor(Math.random() * STRESS_POSTS.length)]
+      : NEUTRAL_POSTS[Math.floor(Math.random() * NEUTRAL_POSTS.length)]
+
+    const engMul = stressedEngagement ? 0.2 + Math.random() * 0.4 : 0.6 + Math.random() * 0.6
     day.setHours(hour % 24, Math.floor(Math.random() * 60))
 
     posts.push({
-      text: recentPool[Math.floor(Math.random() * recentPool.length)],
-      likes: isStressed ? 5 + Math.floor(Math.random() * 25) : isMedium ? 30 + Math.floor(Math.random() * 60) : 60 + Math.floor(Math.random() * 100),
-      comments: isStressed ? Math.floor(Math.random() * 5) : isMedium ? 3 + Math.floor(Math.random() * 12) : 8 + Math.floor(Math.random() * 25),
-      shares: isStressed ? Math.floor(Math.random() * 2) : isMedium ? 1 + Math.floor(Math.random() * 4) : 2 + Math.floor(Math.random() * 6),
+      text,
+      likes: Math.floor((80 + Math.random() * 120) * engMul),
+      comments: Math.floor((10 + Math.random() * 30) * engMul),
+      shares: Math.floor((2 + Math.random() * 8) * engMul),
       timestamp: day.toISOString(),
     })
   }
 
+  const nLoc = stressLevel > 0.6 ? 1 : stressLevel > 0.3 ? 1 + Math.floor(Math.random() * 2) : 2 + Math.floor(Math.random() * 4)
+
   return {
     posts,
-    followers: isStressed ? 200 + Math.floor(Math.random() * 300) : isMedium ? 500 + Math.floor(Math.random() * 800) : 1000 + Math.floor(Math.random() * 1500),
-    locations: isStressed
-      ? [CITIES[Math.floor(Math.random() * CITIES.length)]]
-      : isMedium
-        ? Array.from({ length: 1 + Math.floor(Math.random() * 2) }, () => CITIES[Math.floor(Math.random() * CITIES.length)])
-        : Array.from({ length: 2 + Math.floor(Math.random() * 4) }, () => CITIES[Math.floor(Math.random() * CITIES.length)]),
+    followers: 600 + Math.floor(Math.random() * 1400),
+    locations: Array.from({ length: nLoc }, () => CITIES[Math.floor(Math.random() * CITIES.length)]),
   }
 }
 
@@ -312,16 +312,17 @@ export default function Dashboard() {
 
               {analysisResult && (
                 <motion.div variants={fadeUp} initial="hidden" animate="visible" className="glass-card p-7">
-                  <h3 className="text-lg font-semibold mb-5">Детализация компонентов</h3>
+                  <h3 className="text-lg font-semibold mb-1">Детализация компонентов</h3>
+                  <p className="text-xs text-white/25 mb-5">Выше % — сильнее признак стресса по данному фактору</p>
                   <div className="space-y-3">
                     {[
                       { label: 'Изменение активности', value: analysisResult.component_scores.activity_change, icon: Activity },
-                      { label: 'Тональность текста', value: analysisResult.component_scores.sentiment, icon: TrendingUp },
+                      { label: 'Тональность текстов', value: analysisResult.component_scores.sentiment, icon: TrendingUp },
                       { label: 'Социальные связи', value: analysisResult.component_scores.social_interactions, icon: Users },
-                      { label: 'Временные паттерны', value: analysisResult.component_scores.time_patterns, icon: Clock },
+                      { label: 'Режим сна', value: analysisResult.component_scores.time_patterns, icon: Clock },
                       { label: 'Геолокация', value: analysisResult.component_scores.geolocation || 0, icon: MapPin },
-                      { label: 'Академич. упоминания', value: analysisResult.component_scores.academic_mentions, icon: BookOpen },
-                      { label: 'Социальная обратная связь', value: analysisResult.component_scores.social_feedback, icon: MessageCircle },
+                      { label: 'Академический контент', value: analysisResult.component_scores.academic_mentions, icon: BookOpen },
+                      { label: 'Социальное признание', value: analysisResult.component_scores.social_feedback, icon: MessageCircle },
                     ].map(item => {
                       const norm = Math.max(0, Math.min(1, item.value || 0))
                       const color = norm > 0.6 ? 'from-red-500 to-rose-500' : norm > 0.3 ? 'from-amber-500 to-orange-500' : 'from-emerald-500 to-teal-500'
@@ -361,7 +362,8 @@ export default function Dashboard() {
                     <StressGauge score={analysisResult.normalized_score} size={240} />
                   </div>
                   <div className="glass-card p-7">
-                    <h3 className="text-lg font-semibold mb-4">Радар-анализ</h3>
+                    <h3 className="text-lg font-semibold mb-1">Радар-анализ</h3>
+                    <p className="text-xs text-white/25 mb-4">Дальше от центра — сильнее признак стресса</p>
                     <StressRadar data={radarData} height={280} />
                   </div>
                   <div className="glass-card p-7">

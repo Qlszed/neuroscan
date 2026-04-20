@@ -246,25 +246,25 @@ async def get_audit_logs(
 SCENARIOS = {
     "low_stress": {
         "components": {
-            "activity_change": (0.02, 0.10),
-            "sentiment": (0.01, 0.08),
-            "social_interactions": (0.02, 0.10),
-            "time_patterns": (0.01, 0.05),
-            "geolocation": (0.05, 0.15),
-            "academic_mentions": (0.02, 0.08),
-            "social_feedback": (0.01, 0.10),
+            "activity_change": (0.02, 0.08),
+            "sentiment": (0.02, 0.08),
+            "social_interactions": (0.02, 0.08),
+            "time_patterns": (0.01, 0.04),
+            "geolocation": (0.03, 0.10),
+            "academic_mentions": (0.02, 0.06),
+            "social_feedback": (0.02, 0.08),
         },
         "target_score": 0.20,
         "trend": "decreasing",
     },
     "medium_stress": {
         "components": {
-            "activity_change": (0.15, 0.35),
-            "sentiment": (0.25, 0.45),
-            "social_interactions": (0.15, 0.35),
-            "time_patterns": (0.10, 0.25),
-            "geolocation": (0.15, 0.30),
-            "academic_mentions": (0.25, 0.45),
+            "activity_change": (0.15, 0.30),
+            "sentiment": (0.30, 0.50),
+            "social_interactions": (0.20, 0.35),
+            "time_patterns": (0.10, 0.20),
+            "geolocation": (0.08, 0.18),
+            "academic_mentions": (0.20, 0.35),
             "social_feedback": (0.15, 0.30),
         },
         "target_score": 0.50,
@@ -272,13 +272,13 @@ SCENARIOS = {
     },
     "high_stress": {
         "components": {
-            "activity_change": (0.55, 0.80),
-            "sentiment": (0.70, 0.95),
-            "social_interactions": (0.50, 0.75),
-            "time_patterns": (0.40, 0.60),
-            "geolocation": (0.35, 0.55),
-            "academic_mentions": (0.60, 0.85),
-            "social_feedback": (0.45, 0.65),
+            "activity_change": (0.50, 0.75),
+            "sentiment": (0.70, 0.90),
+            "social_interactions": (0.50, 0.70),
+            "time_patterns": (0.35, 0.50),
+            "geolocation": (0.25, 0.40),
+            "academic_mentions": (0.50, 0.70),
+            "social_feedback": (0.45, 0.60),
         },
         "target_score": 0.85,
         "trend": "spiking",
@@ -295,7 +295,7 @@ WEIGHTS = {
     "social_feedback": 1.4,
 }
 
-SIGMOID_BIAS = -3.25
+SIGMOID_BIAS = -4.0
 
 
 def _sigmoid(z):
@@ -369,12 +369,12 @@ async def create_scenario(
 
     radar_chart_data = {
         "Изменение активности": round(comp["activity_change"] * 100, 1),
-        "Тональность": round(comp["sentiment"] * 100, 1),
+        "Тональность текстов": round(comp["sentiment"] * 100, 1),
         "Социальные связи": round(comp["social_interactions"] * 100, 1),
-        "Временные паттерны": round(comp["time_patterns"] * 100, 1),
+        "Режим сна": round(comp["time_patterns"] * 100, 1),
         "Геолокация": round(comp["geolocation"] * 100, 1),
-        "Академич. упоминания": round(comp["academic_mentions"] * 100, 1),
-        "Обратная связь": round(comp["social_feedback"] * 100, 1),
+        "Академический контент": round(comp["academic_mentions"] * 100, 1),
+        "Социальное признание": round(comp["social_feedback"] * 100, 1),
     }
 
     time_series_data = _generate_trend(req.scenario, normalized_score)

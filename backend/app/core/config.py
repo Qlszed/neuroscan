@@ -43,7 +43,7 @@ class Settings(BaseSettings):
         "academic_mentions": 2.0,
         "social_feedback": 1.4,
     }
-    SIGMOID_BIAS: float = -3.25
+    SIGMOID_BIAS: float = -4.0
     
     class Config:
         case_sensitive = True

@@ -15,7 +15,7 @@ def _mean(vals):
 
 
 class StressAnalyzer:
-    def __init__(self, weights: Dict[str, float], bias: float = -3.5):
+    def __init__(self, weights: Dict[str, float], bias: float = -4.0):
         self.weights = weights
         self.bias = bias
 
@@ -176,12 +176,12 @@ class StressAnalyzer:
 
         radar_chart_data = {
             'Изменение активности': round(components['activity_change'] * 100, 1),
-            'Тональность': round(components['sentiment'] * 100, 1),
+            'Тональность текстов': round(components['sentiment'] * 100, 1),
             'Социальные связи': round(components['social_interactions'] * 100, 1),
-            'Временные паттерны': round(components['time_patterns'] * 100, 1),
+            'Режим сна': round(components['time_patterns'] * 100, 1),
             'Геолокация': round(components['geolocation'] * 100, 1),
-            'Академич. упоминания': round(components['academic_mentions'] * 100, 1),
-            'Обратная связь': round(components['social_feedback'] * 100, 1),
+            'Академический контент': round(components['academic_mentions'] * 100, 1),
+            'Социальное признание': round(components['social_feedback'] * 100, 1),
         }
 
         return {

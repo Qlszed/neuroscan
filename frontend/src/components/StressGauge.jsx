@@ -79,6 +79,8 @@ export default function StressGauge({ score = 0, size = 240, showLabel = true })
 
   const uid = `g${size}`
 
+  const activeSegIdx = score < 0.3 ? 0 : score < 0.7 ? 1 : 2
+
   return (
     <div className="flex flex-col items-center">
       <svg width={vw} height={vh} viewBox={`0 0 ${vw} ${vh}`}>
@@ -90,8 +92,9 @@ export default function StressGauge({ score = 0, size = 240, showLabel = true })
 
         {segments.map((seg, i) => (
           <path key={i} d={arcPath(cx, cy, r, seg.a1, seg.a2)} fill="none"
-            stroke={seg.color} strokeWidth={sw} strokeOpacity={0.45}
-            strokeLinecap={i === 0 || i === 2 ? 'round' : 'butt'} />
+            stroke={seg.color} strokeWidth={sw} strokeOpacity={i === activeSegIdx ? 0.7 : 0.3}
+            strokeLinecap={i === 0 || i === 2 ? 'round' : 'butt'}
+            style={i === activeSegIdx ? { animation: 'gaugePulse 2s ease-in-out infinite' } : {}} />
         ))}
 
         {ticks}
