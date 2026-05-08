@@ -201,9 +201,6 @@ export default function AutomatonPanel() {
                     </span>
                   </div>
                   <StressGauge score={stressResult.normalized_score} size={240} />
-                  <div className="mt-4 text-center">
-                    <span className="text-xs text-white/35 font-mono">z = {stressResult.stress_score.toFixed(3)}</span>
-                  </div>
                 </div>
                 <div className="glass-card p-7">
                   <h3 className="text-lg font-semibold mb-1">Радар-анализ</h3>
@@ -211,12 +208,14 @@ export default function AutomatonPanel() {
                   <StressRadar data={radarData} height={280} />
                 </div>
                 <div className="glass-card p-7">
-                  <h3 className="text-lg font-semibold mb-3">Формула расчёта</h3>
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs font-mono text-white/50 leading-relaxed space-y-1">
-                    <p>z = bias + w1*x1 + w2*x2 + ... + w7*x7</p>
-                    <p>z = (-4.0) + {COMPONENT_DEFS.map((c, i) => `${c.weight}*${(components[c.key] / 100).toFixed(2)}`).join(' + ')}</p>
-                    <p>z = {stressResult.stress_score.toFixed(3)}</p>
-                    <p className="pt-1 text-primary-400/70">S = 1/(1+e^(-z)) = {stressResult.normalized_score.toFixed(3)}</p>
+                  <h3 className="text-lg font-semibold mb-3">Параметры модели</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {COMPONENT_DEFS.map(c => (
+                      <div key={c.key} className="flex items-center justify-between p-2 rounded-lg bg-white/[0.03] border border-white/[0.04]">
+                        <span className="text-xs text-white/50">{c.label}</span>
+                        <span className="text-xs font-bold text-primary-400/70">w={c.weight}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </>
