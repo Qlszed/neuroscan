@@ -151,3 +151,23 @@ class APIResponse(BaseModel):
     success: bool
     message: str
     data: Optional[Any] = None
+
+
+class ScenarioComputeRequest(BaseModel):
+    scenario: str = Field(..., description="low_stress, medium_stress, or high_stress")
+
+
+class SentimentTestRequest(BaseModel):
+    text: str = Field(..., min_length=1)
+
+
+class SentimentTestResponse(BaseModel):
+    positive: float
+    neutral: float
+    negative: float
+    method: str
+
+
+class ManualComputeRequest(BaseModel):
+    components: Dict[str, float] = Field(..., description="Component values 0-1")
+    sentiment_text: Optional[str] = None

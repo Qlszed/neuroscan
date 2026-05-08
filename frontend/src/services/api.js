@@ -76,6 +76,21 @@ export const analysisService = {
     return data
   },
 
+  computeScenario: async (scenario) => {
+    const { data } = await api.post('/analysis/compute', { scenario })
+    return data
+  },
+
+  sentimentTest: async (text) => {
+    const { data } = await api.post('/analysis/sentiment-test', { text })
+    return data
+  },
+
+  manualCompute: async (components, sentimentText) => {
+    const { data } = await api.post('/analysis/manual-compute', { components, sentiment_text: sentimentText || null })
+    return data
+  },
+
   getHistory: async () => {
     const { data } = await api.get('/analysis/history')
     return data

@@ -13,9 +13,10 @@ class Permissions:
     USER = "user"
 
     ROLE_HIERARCHY = {
-        UserRole.ADMIN: 4,
-        UserRole.PSYCHOLOGIST: 3,
-        UserRole.CURATOR: 2,
+        UserRole.ADMIN: 5,
+        UserRole.PSYCHOLOGIST: 4,
+        UserRole.CURATOR: 3,
+        UserRole.AUTOMATON: 2,
         UserRole.USER: 1,
     }
 
@@ -32,6 +33,9 @@ class Permissions:
         UserRole.CURATOR: [
             "analysis:read_group_summary", "analysis:read_own",
             "profiles:read_group_summary",
+        ],
+        UserRole.AUTOMATON: [
+            "analysis:manual_compute", "sentiment:test",
         ],
         UserRole.USER: [
             "analysis:read_own", "analysis:run", "profiles:manage_own",

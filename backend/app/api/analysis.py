@@ -6,7 +6,7 @@ from datetime import datetime
 
 from app.core.database import get_db
 from app.models.models import AnalysisResult, Profile, User, AuditLog, UserRole
-from app.schemas.schemas import AnalysisRequest, AnalysisResponse, AnalysisHistoryResponse, APIResponse, ComponentScores
+from app.schemas.schemas import AnalysisRequest, AnalysisResponse, AnalysisHistoryResponse, APIResponse, ComponentScores, ScenarioComputeRequest, SentimentTestRequest, SentimentTestResponse, ManualComputeRequest
 from app.services.sentiment_analyzer import sentiment_analyzer
 from app.services.stress_analyzer import get_default_stress_analyzer
 from app.api.auth import get_current_user
@@ -234,3 +234,183 @@ async def delete_analysis(
     await db.commit()
 
     return APIResponse(success=True, message="Analysis deleted successfully")
+
+
+FIXED_SCENARIOS = {
+    "low_stress": {
+        "components": {
+            "activity_change": 0.15,
+            "sentiment": 0.18,
+            "social_interactions": 0.25,
+            "time_patterns": 0.15,
+            "geolocation": 0.20,
+            "academic_mentions": 0.25,
+            "social_feedback": 0.20,
+        },
+        "time_series": [
+            {"date": "2024-09-07", "stress": 0.25},
+            {"date": "2024-09-14", "stress": 0.22},
+            {"date": "2024-09-21", "stress": 0.20},
+            {"date": "2024-09-28", "stress": 0.19},
+            {"date": "2024-10-05", "stress": 0.19},
+        ],
+    },
+    "medium_stress": {
+        "components": {
+            "activity_change": 0.30,
+            "sentiment": 0.39,
+            "social_interactions": 0.36,
+            "time_patterns": 0.25,
+            "geolocation": 0.20,
+            "academic_mentions": 0.36,
+            "social_feedback": 0.30,
+        },
+        "time_series": [
+            {"date": "2024-09-07", "stress": 0.45},
+            {"date": "2024-09-14", "stress": 0.58},
+            {"date": "2024-09-21", "stress": 0.50},
+            {"date": "2024-09-28", "stress": 0.62},
+            {"date": "2024-10-05", "stress": 0.54},
+            {"date": "2024-10-12", "stress": 0.54},
+        ],
+    },
+    "high_stress": {
+        "components": {
+            "activity_change": 0.50,
+            "sentiment": 0.64,
+            "social_interactions": 0.50,
+            "time_patterns": 0.40,
+            "geolocation": 0.28,
+            "academic_mentions": 0.50,
+            "social_feedback": 0.42,
+        },
+        "time_series": [
+            {"date": "2024-09-07", "stress": 0.45},
+            {"date": "2024-09-14", "stress": 0.55},
+            {"date": "2024-09-21", "stress": 0.62},
+            {"date": "2024-09-28", "stress": 0.78},
+            {"date": "2024-10-05", "stress": 0.85},
+            {"date": "2024-10-12", "stress": 0.91},
+        ],
+    },
+}
+
+
+def _compute_from_components(components: dict, time_series: list) -> dict:
+    from app.core.config import settings
+    import math
+
+    weights = settings.STRESS_WEIGHTS
+    bias = settings.SIGMOID_BIAS
+
+    z = bias + sum(weights[k] * components.get(k, 0) for k in weights)
+    normalized_score = max(0, min(1, 1 / (1 + math.exp(-z))))
+
+    radar_chart_data = {
+        'Изменение активности': round(components.get('activity_change', 0) * 100, 1),
+        'Тональность текстов': round(components.get('sentiment', 0) * 100, 1),
+        'Социальные связи': round(components.get('social_interactions', 0) * 100, 1),
+        'Режим сна': round(components.get('time_patterns', 0) * 100, 1),
+        'Геолокация': round(components.get('geolocation', 0) * 100, 1),
+        'Академический контент': round(components.get('academic_mentions', 0) * 100, 1),
+        'Социальное признание': round(components.get('social_feedback', 0) * 100, 1),
+    }
+
+    return {
+        'stress_score': float(z),
+        'normalized_score': normalized_score,
+        'component_scores': components,
+        'radar_chart_data': radar_chart_data,
+        'time_series_data': time_series,
+    }
+
+
+@router.post("/compute", response_model=AnalysisResponse)
+async def compute_scenario(
+    req: ScenarioComputeRequest,
+    current_user: User = Depends(get_current_user),
+):
+    if req.scenario not in FIXED_SCENARIOS:
+        raise HTTPException(status_code=400, detail="Invalid scenario. Use: low_stress, medium_stress, high_stress")
+
+    cfg = FIXED_SCENARIOS[req.scenario]
+    result = _compute_from_components(cfg["components"], cfg["time_series"])
+
+    return AnalysisResponse(
+        id=0,
+        stress_score=result['stress_score'],
+        normalized_score=result['normalized_score'],
+        component_scores=ComponentScores(**result['component_scores']),
+        radar_chart_data=result['radar_chart_data'],
+        time_series_data=result['time_series_data'],
+        processed_at=datetime.utcnow()
+    )
+
+
+@router.post("/sentiment-test", response_model=SentimentTestResponse)
+async def test_sentiment(
+    req: SentimentTestRequest,
+    current_user: User = Depends(get_current_user),
+):
+    if current_user.role != UserRole.AUTOMATON:
+        raise HTTPException(status_code=403, detail="Доступно только для роли Автомат")
+
+    result = sentiment_analyzer._fallback_sentiment(req.text)
+    method = "keywords"
+
+    try:
+        import torch
+        from transformers import AutoTokenizer, AutoModelForSequenceClassification
+        import numpy as np
+
+        tokenizer = AutoTokenizer.from_pretrained("blanchefort/rubert-base-cased-sentiment")
+        model = AutoModelForSequenceClassification.from_pretrained("blanchefort/rubert-base-cased-sentiment")
+        model.eval()
+
+        with torch.no_grad():
+            inputs = tokenizer(req.text, return_tensors="pt", truncation=True, max_length=512)
+            outputs = model(**inputs)
+            probs = torch.softmax(outputs.logits, dim=1).squeeze().tolist()
+
+        label_map = {0: "neutral", 1: "negative", 2: "positive"}
+        result = {label_map[i]: probs[i] for i in range(3)}
+        method = "rubert"
+    except Exception:
+        pass
+
+    return SentimentTestResponse(
+        positive=round(result.get("positive", 0.33), 3),
+        neutral=round(result.get("neutral", 0.34), 3),
+        negative=round(result.get("negative", 0.33), 3),
+        method=method,
+    )
+
+
+@router.post("/manual-compute", response_model=AnalysisResponse)
+async def manual_compute(
+    req: ManualComputeRequest,
+    current_user: User = Depends(get_current_user),
+):
+    if current_user.role != UserRole.AUTOMATON:
+        raise HTTPException(status_code=403, detail="Доступно только для роли Автомат")
+
+    components = {}
+    valid_keys = {"activity_change", "sentiment", "social_interactions", "time_patterns", "geolocation", "academic_mentions", "social_feedback"}
+    for k in valid_keys:
+        components[k] = max(0, min(1, req.components.get(k, 0)))
+
+    if req.sentiment_text:
+        sent_result = sentiment_analyzer._fallback_sentiment(req.sentiment_text)
+        components["sentiment"] = max(0, min(1, sent_result.get("negative", 0.33)))
+
+    result = _compute_from_components(components, [])
+
+    return AnalysisResponse(
+        id=0,
+        stress_score=result['stress_score'],
+        normalized_score=result['normalized_score'],
+        component_scores=ComponentScores(**result['component_scores']),
+        radar_chart_data=result['radar_chart_data'],
+        time_series_data=result['time_series_data'],
+        processed_at=datetime.utcnow()
+    )

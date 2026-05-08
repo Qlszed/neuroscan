@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
-import { Mail, Lock, Eye, EyeOff, User, Loader2, CheckCircle, Brain, Shield, Eye as EyeIcon, BarChart3, Key } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, User, Loader2, CheckCircle, Brain, Shield, Eye as EyeIcon, BarChart3, Cpu, Key } from 'lucide-react'
 import { useAuth, ROLE_LABELS } from '../context/AuthContext'
 
-const roleIcons = { user: User, psychologist: EyeIcon, curator: BarChart3, admin: Shield }
+const roleIcons = { user: User, psychologist: EyeIcon, curator: BarChart3, admin: Shield, automaton: Cpu }
 const roleDescriptions = {
   user: 'Анализ своего профиля и просмотр результатов',
+  automaton: 'Ручная настройка компонентов и анализ тональности',
   psychologist: 'Детальные отчёты по ученикам закреплённых классов',
   curator: 'Обзор уровня стресса в группе без персональных данных',
   admin: 'Полный доступ к системе и логам',
@@ -41,7 +42,7 @@ export default function Register() {
     const validationError = validatePassword()
     if (validationError) { setError(validationError); return }
 
-    if (selectedRole !== 'user' && !roleCode.trim()) {
+    if (!['user', 'automaton'].includes(selectedRole) && !roleCode.trim()) {
       setError('Для этой роли необходимо ввести код доступа')
       return
     }
@@ -168,7 +169,7 @@ export default function Register() {
               </div>
             </div>
 
-            {selectedRole !== 'user' && (
+            {!['user', 'automaton'].includes(selectedRole) && (
               <div>
                 <label className="block text-sm font-medium text-white/50 mb-2">Код доступа для роли</label>
                 <div className="relative">

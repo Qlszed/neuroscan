@@ -7,6 +7,7 @@ export const ROLE_LABELS = {
   admin: 'Администратор',
   psychologist: 'Психолог',
   curator: 'Куратор',
+  automaton: 'Автомат',
   user: 'Ученик',
 }
 
@@ -14,6 +15,7 @@ export const ROLE_COLORS = {
   admin: 'text-red-400 bg-red-500/10 border-red-500/20',
   psychologist: 'text-violet-400 bg-violet-500/10 border-violet-500/20',
   curator: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+  automaton: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
   user: 'text-white/50 bg-white/5 border-white/10',
 }
 
@@ -59,13 +61,14 @@ export function AuthProvider({ children }) {
   const isAdmin = user?.role === 'admin'
   const isPsychologist = user?.role === 'psychologist'
   const isCurator = user?.role === 'curator'
+  const isAutomaton = user?.role === 'automaton'
   const canViewReports = isAdmin || isPsychologist
   const canViewGroupSummary = isAdmin || isPsychologist || isCurator
 
   return (
     <AuthContext.Provider value={{
       user, loading, login, register, logout, updateConsent,
-      isAdmin, isPsychologist, isCurator,
+      isAdmin, isPsychologist, isCurator, isAutomaton,
       canViewReports, canViewGroupSummary,
     }}>
       {children}

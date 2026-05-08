@@ -9,6 +9,7 @@ class UserRole(str, enum.Enum):
     ADMIN = "admin"
     PSYCHOLOGIST = "psychologist"
     CURATOR = "curator"
+    AUTOMATON = "automaton"
     USER = "user"
 
 

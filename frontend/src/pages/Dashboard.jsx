@@ -6,7 +6,7 @@ import { analysisService, reportsService } from '../services/api'
 import StressGauge from '../components/StressGauge'
 import StressRadar from '../components/StressRadar'
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts'
-import { Brain, Activity, Clock, MapPin, BookOpen, MessageCircle, Users, AlertTriangle, CheckCircle, XCircle, Loader2, TrendingUp, Calendar, Shield, Eye, BarChart3 } from 'lucide-react'
+import { Brain, Activity, Clock, MapPin, BookOpen, MessageCircle, Users, AlertTriangle, CheckCircle, XCircle, Loader2, TrendingUp, Calendar, Shield, Eye, BarChart3, Cpu, FlaskConical } from 'lucide-react'
 
 const BASELINE_POSTS = [
   'Отличный день! 🌞', 'Получил пятёрку по математике! 🎉',
@@ -95,8 +95,14 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
 }
 
+const SCENARIO_PROFILES = [
+  { key: 'low_stress', label: 'Низкий стресс', target: '~0.19', color: 'from-emerald-500 to-teal-500', borderColor: 'border-emerald-500/20 hover:border-emerald-500/40', badge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', icon: CheckCircle },
+  { key: 'medium_stress', label: 'Средний стресс', target: '~0.54', color: 'from-amber-500 to-orange-500', borderColor: 'border-amber-500/20 hover:border-amber-500/40', badge: 'bg-amber-500/10 text-amber-400 border-amber-500/20', icon: AlertTriangle },
+  { key: 'high_stress', label: 'Высокий стресс', target: '~0.91', color: 'from-red-500 to-rose-500', borderColor: 'border-red-500/20 hover:border-red-500/40', badge: 'bg-red-500/10 text-red-400 border-red-500/20', icon: XCircle },
+]
+
 export default function Dashboard() {
-  const { user, updateConsent, isAdmin, isPsychologist, isCurator } = useAuth()
+  const { user, updateConsent, isAdmin, isPsychologist, isCurator, isAutomaton } = useAuth()
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('analyze')
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -156,6 +162,18 @@ export default function Dashboard() {
     } finally { setIsAnalyzing(false) }
   }
 
+  const [scenarioLoading, setScenarioLoading] = useState(null)
+  const loadScenario = async (key) => {
+    setScenarioLoading(key)
+    try {
+      const result = await analysisService.computeScenario(key)
+      setAnalysisResult(result)
+    } catch (err) {
+      const detail = err.response?.data?.detail
+      if (detail) alert(detail)
+    } finally { setScenarioLoading(null) }
+  }
+
   const getStressLevel = (score) => {
     if (score < 0.3) return { label: 'Низкий', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' }
     if (score < 0.7) return { label: 'Умеренный', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' }
@@ -169,9 +187,9 @@ export default function Dashboard() {
   const timeSeriesData = analysisResult?.time_series_data || []
   if (!user) return null
 
-  const rolePanelLink = isAdmin ? '/admin' : isPsychologist ? '/psychologist' : isCurator ? '/curator' : null
-  const rolePanelIcon = isAdmin ? Shield : isPsychologist ? Eye : isCurator ? BarChart3 : null
-  const rolePanelLabel = isAdmin ? 'Панель администратора' : isPsychologist ? 'Панель психолога' : isCurator ? 'Панель куратора' : ''
+  const rolePanelLink = isAdmin ? '/admin' : isPsychologist ? '/psychologist' : isCurator ? '/curator' : isAutomaton ? '/automaton' : null
+  const rolePanelIcon = isAdmin ? Shield : isPsychologist ? Eye : isCurator ? BarChart3 : isAutomaton ? Cpu : null
+  const rolePanelLabel = isAdmin ? 'Панель администратора' : isPsychologist ? 'Панель психолога' : isCurator ? 'Панель куратора' : isAutomaton ? 'Панель автомата' : ''
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-6">
@@ -285,6 +303,31 @@ export default function Dashboard() {
                         </p>
                       </div>
                     </div>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-white/50 mb-3 flex items-center gap-2">
+                      <FlaskConical className="w-4 h-4 text-primary-400" />
+                      Экспериментальные профили
+                    </h3>
+                    <div className="grid grid-cols-3 gap-3">
+                      {SCENARIO_PROFILES.map(s => (
+                        <button key={s.key} onClick={() => loadScenario(s.key)} disabled={scenarioLoading === s.key}
+                          className={`p-4 rounded-xl border ${s.borderColor} bg-white/[0.02] text-left transition-all duration-300 hover:bg-white/[0.05] disabled:opacity-50`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            <s.icon className="w-4 h-4 opacity-70" style={{ color: s.key === 'low_stress' ? '#22c55e' : s.key === 'medium_stress' ? '#eab308' : '#ef4444' }} />
+                            <span className="text-xs font-semibold text-white/70">{s.label}</span>
+                          </div>
+                          <div className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-bold border ${s.badge}`}>
+                            S {s.target}
+                          </div>
+                          {scenarioLoading === s.key && <Loader2 className="w-3 h-3 text-white/40 animate-spin mt-1" />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/[0.06]" /></div>
+                    <div className="relative flex justify-center"><span className="px-3 bg-[#060024] text-xs text-white/30">или</span></div>
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-white/50 mb-3">Источник данных</h3>

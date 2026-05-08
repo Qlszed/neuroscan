@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, LogOut, LayoutDashboard, Shield, Eye, BarChart3 } from 'lucide-react'
+import { Menu, X, LogOut, LayoutDashboard, Shield, Eye, BarChart3, Cpu } from 'lucide-react'
 import { useAuth, ROLE_LABELS, ROLE_COLORS } from '../context/AuthContext'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { user, logout, isAdmin, isPsychologist, isCurator } = useAuth()
+  const { user, logout, isAdmin, isPsychologist, isCurator, isAutomaton } = useAuth()
   const location = useLocation()
 
   useEffect(() => {
@@ -30,6 +30,8 @@ export default function Navbar() {
     ? { path: '/psychologist', label: 'Психолог', icon: Eye }
     : isCurator
     ? { path: '/curator', label: 'Куратор', icon: BarChart3 }
+    : isAutomaton
+    ? { path: '/automaton', label: 'Автомат', icon: Cpu }
     : null
 
   return (

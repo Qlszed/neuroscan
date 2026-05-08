@@ -62,7 +62,7 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
         )
 
     role = user_data.role if user_data.role else UserRole.USER
-    if role != UserRole.USER:
+    if role not in (UserRole.USER, UserRole.AUTOMATON):
         if not user_data.role_code:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,

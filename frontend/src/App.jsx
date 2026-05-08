@@ -10,6 +10,7 @@ import Register from './pages/Register'
 import AdminPanel from './pages/AdminPanel'
 import PsychologistPanel from './pages/PsychologistPanel'
 import CuratorPanel from './pages/CuratorPanel'
+import AutomatonPanel from './pages/AutomatonPanel'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/psychologist" element={<PsychologistPanel />} />
               <Route path="/curator" element={<CuratorPanel />} />
+              <Route path="/automaton" element={<AutomatonPanel />} />
             </Routes>
           </main>
           <Footer />
