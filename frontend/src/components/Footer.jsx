@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Brain, Github, Twitter, Mail, Heart } from 'lucide-react'
+import { Github, Twitter, Mail, Heart } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -29,9 +29,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
+              <img src="/brain.svg" alt="NeuroScan" className="w-10 h-10 rounded-xl shadow-lg shadow-primary-500/20" />
               <span className="text-xl font-display font-bold tracking-tight">
                 Neuro<span className="gradient-text">Scan</span>
               </span>

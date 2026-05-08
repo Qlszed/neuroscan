@@ -48,21 +48,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 via-purple-500 to-accent-500 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary-500/20">
-              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
-                <path d="M12 2C8.5 2, 6 4.5, 6 7.5C4.5 8, 3 9.5, 3 11.5C3 14, 5 16, 7.5 16C8 17.5, 9.5 19, 12 19C14.5 19, 16 17.5, 16.5 16C19 16, 21 14, 21 11.5C21 9.5, 19.5 8, 18 7.5C18 4.5, 15.5 2, 12 2Z" fill="#e0e7ff" stroke="none"/>
-                <path d="M9 8C10 7, 11 7.5, 12 8" stroke="#6366f1" strokeWidth="0.8" strokeLinecap="round" opacity="0.5"/>
-                <path d="M12 8C13 7.5, 14 7, 15 8" stroke="#6366f1" strokeWidth="0.8" strokeLinecap="round" opacity="0.5"/>
-                <path d="M8 12C9 11, 10 11.5, 12 12" stroke="#6366f1" strokeWidth="0.7" strokeLinecap="round" opacity="0.4"/>
-                <path d="M12 12C14 11.5, 15 11, 16 12" stroke="#6366f1" strokeWidth="0.7" strokeLinecap="round" opacity="0.4"/>
-                <circle cx="10" cy="7" r="0.8" fill="#818cf8" opacity="0.7"/>
-                <circle cx="14" cy="7" r="0.8" fill="#818cf8" opacity="0.7"/>
-                <circle cx="12" cy="11" r="0.7" fill="#818cf8" opacity="0.6"/>
-                <line x1="10" y1="7" x2="14" y2="7" stroke="#a5b4fc" strokeWidth="0.3" opacity="0.4"/>
-                <line x1="10" y1="7" x2="12" y2="11" stroke="#a5b4fc" strokeWidth="0.3" opacity="0.3"/>
-                <line x1="14" y1="7" x2="12" y2="11" stroke="#a5b4fc" strokeWidth="0.3" opacity="0.3"/>
-              </svg>
-            </div>
+            <img src="/brain.svg" alt="NeuroScan" className="w-10 h-10 rounded-xl transform group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary-500/20" />
             <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
           </div>
           <span className="text-xl font-display font-bold tracking-tight">
